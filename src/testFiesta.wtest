@@ -1,0 +1,38 @@
+import persona.*
+import jarra.*
+import cerveza.*
+import carpa.*
+
+describe "Oktober fest" {
+
+	var ozil = new Aleman(peso = 85, leGustaLaMusica = true, aguante = 800)
+	var ovejero = new Belga(peso = 80, leGustaLaMusica = false, aguante = 10)
+	var ricardo = new Checo(peso = 70, leGustaLaMusica = true, aguante = 7)
+	var corona = new CervezaRubia(graduacion = 0.03, contLupulo = 0.04, pais = "Mexico")
+	var guiness = new CervezaNegra(contLupulo = 0.08, pais = "Irlanda")
+	var hofbrau = new CervezaRoja(contLupulo = 0.04, pais = "Alemania")
+	var jarra1 = new JarraDeCerveza(marca = corona, litros = 5)
+	var jarra2 = new JarraDeCerveza(marca = guiness, litros = 7)
+	var jarra3 = new JarraDeCerveza(marca = hofbrau, litros = 4)
+
+	test "contenido alcoholico de una jarra" {
+		assert.equals(jarra1.contenidoAlcoholico(),0.15)
+	}
+	
+	test "total de alcohol que chupó ozil"{
+		ozil.comprarJarra(jarra2)
+		ozil.comprarJarra(jarra1)
+		assert.equals(ozil.litrosConsumidos(),12)
+		
+	}
+	
+	test "ricardo se pone en pedo y ozil no"{
+		ozil.comprarJarra(jarra2)
+		ricardo.comprarJarra(jarra1)
+		ricardo.comprarJarra(jarra2)
+		assert.that(ricardo.estaEbrio())
+		assert.that(!ozil.estaEbrio())
+	}
+
+}
+
