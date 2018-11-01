@@ -1,5 +1,5 @@
 class JarraDeCerveza {
-	const marca // instancia de clase cervezaRubia,Negra o Roja
+	const marca // instancia de clase CervezaRubia,Negra o Roja
 	const litros
 	
 	constructor(_marca,_litros){

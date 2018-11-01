@@ -8,13 +8,14 @@ describe "Oktober fest" {
 	var ozil = new Aleman(peso = 85, leGustaLaMusica = true, aguante = 800)
 	var carlos = new Aleman(peso = 80, leGustaLaMusica = true, aguante = 900)
 	var ovejero = new Belga(peso = 80, leGustaLaMusica = false, aguante = 800)
-	var ricardo = new Checo(peso = 70, leGustaLaMusica = true, aguante = 7)
+	var ricardo = new Checo(peso = 70, leGustaLaMusica = true, aguante = 700)
 	var corona = new CervezaRubia(graduacion = 0.09, contLupulo = 0.04, pais = "Mexico")
 	var guiness = new CervezaNegra(contLupulo = 0.08, pais = "Irlanda")
 	var hofbrau = new CervezaRoja(contLupulo = 0.04, pais = "Alemania")
 	var jarra1 = new JarraDeCerveza(marca = corona, litros = 5)
 	var jarra2 = new JarraDeCerveza(marca = guiness, litros = 7)
 	var jarra3 = new JarraDeCerveza(marca = hofbrau, litros = 4)
+	var jarra4 = new JarraDeCerveza(marca = hofbrau, litros = 0.5)
 	var carpa1 = new Carpa(limiteDeGente = 30, marcaQueVende = corona, tieneBanda = true)
 	var carpa2 = new Carpa(limiteDeGente = 15, marcaQueVende = guiness, tieneBanda = false)
 	var carpa3 = new Carpa(limiteDeGente = 20, marcaQueVende = hofbrau, tieneBanda = true)
@@ -60,6 +61,12 @@ describe "Oktober fest" {
 		carpa1.agregarPersona(ricardo)
 		carpa1.agregarPersona(carlos)
 		assert.equals(carpa1.ebriosEmpedernidos(), 2)
+	}
+	
+	test "ozil es patriota" {
+		ozil.comprarJarra(jarra3)
+		ozil.comprarJarra(jarra4)
+		assert.that(ozil.esPatriota())
 	}
 
 }

@@ -4,7 +4,6 @@ class Persona {
 	var jarras = #{}
 	const leGustaLaMusica
 	const aguante
-
 	constructor(_peso, _leGustaLaMusica, _aguante) {
 		peso = _peso
 		leGustaLaMusica = _leGustaLaMusica
@@ -12,7 +11,7 @@ class Persona {
 	}
 
 	method peso() = peso
-
+	method jarras() = jarras
 	method jarrasCompradas() = jarras.size()
 
 	method leGustaLaMusica() = leGustaLaMusica
@@ -33,17 +32,22 @@ class Persona {
 		return self.leGustaMarca(carpa.marcaQueVende()) && leGustaLaMusica == carpa.tieneBanda()
 	}
 
-	method esEbrioEmpedernido() = jarras.all{ jar => jar.litros() > 1 }
+	// si no pongo el not isEmpty() me devuelve true cuando el conjunto esta vacio
+	method esEbrioEmpedernido() = !jarras.isEmpty() && jarras.all {jarra=>jarra.litros() > 1} 
 
+	method pais()
+	method esPatriota() = jarras.all{jarra=>jarra.marca().origen() == self.pais()}
 }
 
 class Aleman inherits Persona {
-
+	
 	override method leGustaMarca(marca) = true
 
 	override method quiereEntrar(carpa) {
 		return super(carpa) && carpa.cantidadPersonas() % 2 == 0
 	}
+	
+	override method pais() = "Alemania"
 
 }
 
@@ -52,7 +56,7 @@ class Checo inherits Persona {
 	override method leGustaMarca(marca) {
 		return (marca.graduacionAlcoholica() > 0.08)
 	}
-
+	override method pais() = "Republica Checa"
 }
 
 class Belga inherits Persona {
@@ -60,6 +64,8 @@ class Belga inherits Persona {
 	override method leGustaMarca(marca) {
 		return (marca.contenidoDeLupulo() > 4)
 	}
+	
+	override method pais() = "Belgica"
 
 }
 
