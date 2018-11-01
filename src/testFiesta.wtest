@@ -6,32 +6,60 @@ import carpa.*
 describe "Oktober fest" {
 
 	var ozil = new Aleman(peso = 85, leGustaLaMusica = true, aguante = 800)
-	var ovejero = new Belga(peso = 80, leGustaLaMusica = false, aguante = 10)
+	var carlos = new Aleman(peso = 80, leGustaLaMusica = true, aguante = 900)
+	var ovejero = new Belga(peso = 80, leGustaLaMusica = false, aguante = 800)
 	var ricardo = new Checo(peso = 70, leGustaLaMusica = true, aguante = 7)
-	var corona = new CervezaRubia(graduacion = 0.03, contLupulo = 0.04, pais = "Mexico")
+	var corona = new CervezaRubia(graduacion = 0.09, contLupulo = 0.04, pais = "Mexico")
 	var guiness = new CervezaNegra(contLupulo = 0.08, pais = "Irlanda")
 	var hofbrau = new CervezaRoja(contLupulo = 0.04, pais = "Alemania")
 	var jarra1 = new JarraDeCerveza(marca = corona, litros = 5)
 	var jarra2 = new JarraDeCerveza(marca = guiness, litros = 7)
 	var jarra3 = new JarraDeCerveza(marca = hofbrau, litros = 4)
+	var carpa1 = new Carpa(limiteDeGente = 30, marcaQueVende = corona, tieneBanda = true)
+	var carpa2 = new Carpa(limiteDeGente = 15, marcaQueVende = guiness, tieneBanda = false)
+	var carpa3 = new Carpa(limiteDeGente = 20, marcaQueVende = hofbrau, tieneBanda = true)
 
 	test "contenido alcoholico de una jarra" {
-		assert.equals(jarra1.contenidoAlcoholico(),0.15)
+		assert.equals(jarra1.contenidoAlcoholico(), 0.45)
 	}
-	
-	test "total de alcohol que chupó ozil"{
+
+	test "total de alcohol que chupó ozil" {
 		ozil.comprarJarra(jarra2)
 		ozil.comprarJarra(jarra1)
-		assert.equals(ozil.litrosConsumidos(),12)
-		
+		assert.equals(ozil.litrosConsumidos(), 12)
 	}
-	
-	test "ricardo se pone en pedo y ozil no"{
+
+	test "ricardo se pone en pedo y ozil no" {
 		ozil.comprarJarra(jarra2)
 		ricardo.comprarJarra(jarra1)
 		ricardo.comprarJarra(jarra2)
 		assert.that(ricardo.estaEbrio())
 		assert.that(!ozil.estaEbrio())
+	}
+
+	test "ozil quiere entrar a la carpa1 pero a la 2 no porque no hay musica" {
+		assert.that(ozil.quiereEntrar(carpa1))
+		assert.that(!ozil.quiereEntrar(carpa2))
+	}
+
+	test "ozil entra a la carpa1" {
+		carpa1.agregarPersona(ozil)
+		assert.equals(carpa1.personas(), #{ ozil })
+	}
+
+	test "ricardo no puede entrar a la carpa 1 porque esta ebrio" {
+		ricardo.comprarJarra(jarra1)
+		ricardo.comprarJarra(jarra2)
+		assert.throwsExceptionWithMessage("En pedo no pasas", { carpa1.agregarPersona(ricardo)})
+	}
+
+	test "ebrios empedernidos" {
+		carlos.comprarJarra(jarra2)
+		ozil.comprarJarra(jarra2)
+		carpa1.agregarPersona(ozil)
+		carpa1.agregarPersona(ricardo)
+		carpa1.agregarPersona(carlos)
+		assert.equals(carpa1.ebriosEmpedernidos(), 2)
 	}
 
 }
